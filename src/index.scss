@@ -1,0 +1,249 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, input, h1, h2, h3, ul, li {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.select-block {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+}
+
+.select {
+    width: 270px;
+    padding: 40px 20px;
+    box-sizing: border-box;
+
+    .select-price-time-in-way {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+
+        .select-price-time-in-way__title {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .select-price-time-in-way__price-label {
+            min-width: 200px;
+            margin-left: 10px;
+            text-align: left;
+        }
+    }
+
+    .select-transfer {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        margin-bottom: 20px;
+
+        .select-transfer__title {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 30px;
+            width: 100%;
+
+        }
+
+        .select-transfer__label {
+            min-width: 200px;
+            margin-left: 10px;
+            text-align: left;
+        }
+    }
+
+    .select-price {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+
+        .select-price__title {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .select-price__label {
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        .select-price__input {
+            min-width: 180px;
+            margin-left: 10px;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+    }
+
+    .select-aircompany {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 20px;
+
+        .select-aircompany__title {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .select-aircompany__label {
+            max-width: 200px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+    }
+
+    .select__submit {
+        margin: 20px 0;
+        padding: 10px 30px;
+        background: gray;
+        color: white;
+        justify-self: flex-start;
+    }
+}
+
+.selected-tickets {
+    width: 640px;
+
+    .selected-tickets__selected-ticket {
+        width: 100%;
+
+        .selected-ticket__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            box-sizing: border-box;
+            background: blue;
+            color: white;
+
+            .header__price-for-one {
+
+                .price-for-one__number {
+                    font-size: 20px;
+                    color: white;
+                    font-weight: 500;
+                    text-align: right;
+                }
+
+                .price-for-one__context {
+                    text-align: right;
+                    color: white;
+                    font-size: 11px;
+                }
+            }
+
+        }
+
+        .selected-ticket__selected-ticket-1,
+        .selected-ticket__selected-ticket-2 {
+
+            .selected-ticket__destination {
+                display: flex;
+                justify-content: space-between;
+                padding: 15px;
+                border-bottom: 1px #e5e5e5 solid;
+
+                .start__abbreviation,
+                .end__abbreviation {
+                    color: #0087c9;
+                }
+            }
+
+            .selected-ticket__timing {
+                display: flex;
+                justify-content: space-between;
+                padding: 20px 20px 10px 20px;
+
+                .start__date,
+                .end__date {
+                    color: #0087c9;
+                    font-size: 12px;
+                }
+            }
+
+            .selected-ticket__transfer-count {
+                display: inline-block;
+                text-align: center;
+                position: relative;
+                margin-bottom: 20px;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    width: 210px;
+                    height: 2px;
+                    background: #a2a2a2;
+                    top: 10px;
+                    left: -220px;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 210px;
+                    height: 2px;
+                    background: #a2a2a2;
+                    top: 10px;
+                    right: -220px;
+                }
+            }
+
+            .selected-ticket__shipper {
+                padding: 15px;
+                text-align: left;
+                color: black;
+                border-bottom: 2px #0083c3 solid;
+            }
+        }
+    }
+
+    .selected-ticket__chouse {
+        width: 100%;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        background: #ffb168;
+        margin-top: -10px;
+        margin-bottom: 30px;
+        font-size: 18px;
+        text-transform: uppercase;
+        color: white;
+        border: none;
+    }
+}
+
+.see-more {
+    padding: 5px 30px;
+    border: 2px black solid;
+}
