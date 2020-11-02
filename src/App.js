@@ -5,9 +5,9 @@ import AirTickets from './components/AirTickets/AirTickets'
 
 function App() {
     return (
-    <div className="App">
-    <AirTickets />
-    </div >
+        <div className="App">
+            <AirTickets />
+        </div >
     );
 }
 

@@ -1,8 +1,24 @@
 import React from "react";
 import "./AirTickets.css";
 
-class AirTickets extends React.Component {
+const json = require('./simple1.json');
+const tickets = JSON.parse(JSON.stringify(json));
+const month = {
+    "01": "янв.",
+    "02": "фев.",
+    "03": "мар.",
+    "04": "апр.",
+    "05": "май",
+    "06": "июн.",
+    "07": "июл.",
+    "08": "авг.",
+    "09": "сен.",
+    "10": "окт.",
+    "11": "ноя.",
+    "12": "дек."
+}
 
+class AirTickets extends React.Component {
     render() {
         return (
             <div className="select-block">
@@ -37,73 +53,101 @@ class AirTickets extends React.Component {
                     <ul>
                         <li className="selected-tickets__selected-ticket">
                             <section className="selected-ticket__header">
-                                <img src="polish.jpg" alt="Polish Airlines" />
+                                <img src="polish.jpg" alt={tickets.flight.carrier.caption} />
                                 <article className="header__price-for-one">
-                                    <p className="price-for-one__number">21 049Р</p>
+                                    <p className="price-for-one__number">{tickets.flight.price.passengerPrices[0].total['amount']} Р</p>
                                     <p className="price-for-one__context">Стоимость билета для одного взрослого пассажира</p>
                                 </article>
                             </section>
                             <section className="selected-ticket__selected-ticket-1">
                                 <section className="selected-ticket__destination">
-                                    <p className="destination__start">Москва, Шереметьево <span className="start__abbreviation">(SVO)</span></p>
-                                    <p className="destination__end">ЛОНДОН, Лондон, Хитроу <span className="end__abbreviation">(LHR)</span></p>
+                                    <p className="destination__start">{tickets.flight.legs.[0].segments[0].departureCity.caption}, {tickets.flight.legs[0].segments[0].departureAirport.caption} <span className="start__abbreviation">({tickets.flight.legs[0].segments[0].departureAirport.uid})</span></p>
+                                    <p className="destination__end">{tickets.flight.legs.[0].segments[0].arrivalCity.caption}, {tickets.flight.legs.[0].segments[0].arrivalAirport.caption} <span className="end__abbreviation">({tickets.flight.legs.[0].segments[0].arrivalAirport.uid})</span></p>
                                 </section>
                                 <section className="selected-ticket__timing">
-                                    <p className="timing__start">20:40 <span className="start__date">18 авг. вт</span></p>
-                                    <p className="timing__duration">14ч 45мин</p>
-                                    <p className="timing__end"><span className="end__date">19 авг. ср </span> 09:25</p>
+                                    <p className="timing__start">{tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[0].segments[0].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[0].departureDate.split('').splice(5, 2).join('')]}</span></p>
+                                    <p className="timing__duration">{
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') : 
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') :
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') + 60
+                                        } мин</p>
+                                    <p className="timing__end"><span className="end__date">{tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">1 пересадка</p>
-                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">Lot Polish Airlines</span></p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[0].segments[0].airline.caption}</span></p>
                             </section>
                             <section className="selected-ticket__selected-ticket-2">
                                 <section className="selected-ticket__destination">
-                                    <p className="destination__start">ЛОНДОН, Лондон, Хитроу <span className="start__abbreviation">(LHR)</span></p>
-                                    <p className="destination__end">Москва, Шереметьево <span className="end__abbreviation">(SVO)</span></p>
+                                    <p className="destination__start">{tickets.flight.legs.[0].segments[1].departureCity.caption}, {tickets.flight.legs[0].segments[1].departureAirport.caption} <span className="start__abbreviation">({tickets.flight.legs[0].segments[1].departureAirport.uid})</span></p>
+                                    <p className="destination__end">{tickets.flight.legs.[0].segments[1].arrivalCity.caption}, {tickets.flight.legs.[0].segments[1].arrivalAirport.caption} <span className="end__abbreviation">({tickets.flight.legs.[0].segments[1].arrivalAirport.uid})</span></p>
                                 </section>
                                 <section className="selected-ticket__timing">
-                                    <p className="timing__start">18:10 <span className="start__date">19 авг. ср</span></p>
-                                    <p className="timing__duration">23ч 35мин</p>
-                                    <p className="timing__end"><span className="end__date">20 авг. чт </span> 19:45</p>
+                                    <p className="timing__start">{tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[0].segments[1].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[1].departureDate.split('').splice(5, 2).join('')]}</span></p>
+                                    <p className="timing__duration">{
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') : 
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') :
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') + 60
+                                        } мин</p>
+                                    <p className="timing__end"><span className="end__date">{tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">1 пересадка</p>
-                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">Lot Polish Airlines</span></p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[0].segments[1].airline.caption}</span></p>
                             </section>
                             <button className="selected-ticket__chouse">Выбрать</button>
                         </li>
                         <li className="selected-tickets__selected-ticket">
                             <section className="selected-ticket__header">
-                                <img src="airfloot.jpg" alt="Аэрофлот" />
+                                <img src="polish.jpg" alt={tickets.flight.carrier.caption} />
                                 <article className="header__price-for-one">
-                                    <p className="price-for-one__number">31 733Р</p>
+                                    <p className="price-for-one__number">{tickets.flight.price.passengerPrices[0].total['amount']} Р</p>
                                     <p className="price-for-one__context">Стоимость билета для одного взрослого пассажира</p>
                                 </article>
                             </section>
                             <section className="selected-ticket__selected-ticket-1">
                                 <section className="selected-ticket__destination">
-                                    <p className="destination__start">Москва, Шереметьево <span className="start__abbreviation">(SVO)</span></p>
-                                    <p className="destination__end">ЛОНДОН, Лондон, Хитроу <span className="end__abbreviation">(LHR)</span></p>
+                                    <p className="destination__start">{tickets.flight.legs.[1].segments[0].departureCity.caption}, {tickets.flight.legs[1].segments[0].departureAirport.caption} <span className="start__abbreviation">({tickets.flight.legs[1].segments[0].departureAirport.uid})</span></p>
+                                    <p className="destination__end">{tickets.flight.legs.[1].segments[0].arrivalCity.caption}, {tickets.flight.legs.[1].segments[0].arrivalAirport.caption} <span className="end__abbreviation">({tickets.flight.legs.[1].segments[0].arrivalAirport.uid})</span></p>
                                 </section>
                                 <section className="selected-ticket__timing">
-                                    <p className="timing__start">07:05 <span className="start__date">18 авг. вт</span></p>
-                                    <p className="timing__duration">4ч 25мин</p>
-                                    <p className="timing__end"><span className="end__date">18 авг. ср </span> 09:30</p>
+                                    <p className="timing__start">{tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[1].segments[0].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[0].departureDate.split('').splice(5, 2).join('')]}</span></p>
+                                    <p className="timing__duration">{
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') : 
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') :
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') + 60
+                                        } мин</p>
+                                    <p className="timing__end"><span className="end__date">{tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">1 пересадка</p>
-                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">Аэрофлот - российские авиалинии</span></p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[1].segments[0].airline.caption}</span></p>
                             </section>
                             <section className="selected-ticket__selected-ticket-2">
                                 <section className="selected-ticket__destination">
-                                    <p className="destination__start">ЛОНДОН, Лондон, Гатвик <span className="start__abbreviation">(LGW)</span></p>
-                                    <p className="destination__end">Москва, Внуково <span className="end__abbreviation">(VKO)</span></p>
+                                    <p className="destination__start">{tickets.flight.legs.[1].segments[1].departureCity.caption}, {tickets.flight.legs[1].segments[1].departureAirport.caption} <span className="start__abbreviation">({tickets.flight.legs[1].segments[1].departureAirport.uid})</span></p>
+                                    <p className="destination__end">{tickets.flight.legs.[1].segments[1].arrivalCity.caption}, {tickets.flight.legs.[1].segments[1].arrivalAirport.caption} <span className="end__abbreviation">({tickets.flight.legs.[1].segments[1].arrivalAirport.uid})</span></p>
                                 </section>
                                 <section className="selected-ticket__timing">
-                                    <p className="timing__start">17:10 <span className="start__date">19 авг. ср</span></p>
-                                    <p className="timing__duration">15ч 25мин</p>
-                                    <p className="timing__end"><span className="end__date">20 авг. чт </span> 10:35</p>
+                                    <p className="timing__start">{tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[1].segments[1].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[1].departureDate.split('').splice(5, 2).join('')]}</span></p>
+                                    <p className="timing__duration">{
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') : 
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ? 
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') :
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') + 60
+                                        } мин</p>
+                                    <p className="timing__end"><span className="end__date">{tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">1 пересадка</p>
-                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">ГТК Россия</span></p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[1].segments[1].airline.caption}</span></p>
                             </section>
                             <button className="selected-ticket__chouse">Выбрать</button>
                         </li>
