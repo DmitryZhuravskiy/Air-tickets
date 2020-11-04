@@ -19,33 +19,87 @@ const month = {
 }
 
 class AirTickets extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            firstSelect: 'price-up',
+            transfer: 'none',
+            price_min: '0',
+            price_max: '10000',
+            aviaCompany: 'Polish'
+        }
+        this.handleFirstSelect = this.handleFirstSelect.bind(this);
+        this.handleTransfer = this.handleTransfer.bind(this);
+        this.onChangePriceMin = this.onChangePriceMin.bind(this);
+        this.onChangePriceMax = this.onChangePriceMax.bind(this);
+        this.handleAviaCompany = this.handleAviaCompany.bind(this);
+    }
+
+    handleFirstSelect(e) {
+        this.setState({
+            firstSelect: e.target.value
+        })
+    }
+
+    handleTransfer(e) {
+        this.setState({
+            transfer: e.target.value
+        })
+    }
+
+    onChangePriceMin(e) {
+        this.setState({
+            price_min: e.target.value
+        })
+    }
+
+    onChangePriceMax(e) {
+        this.setState({
+            price_max: e.target.value
+        })
+    }
+
+    handleAviaCompany(e) {
+        this.setState({
+            aviaCompany: e.target.value
+        })
+    }
+
     render() {
         return (
             <div className="select-block">
                 <form className="select">
                     <div className="select-price-time-in-way">
                         <p className="select-price-time-in-way__title">Сортировать</p>{" "}
-                        <input className="select-price-time-in-way__price-up" type="radio" id="radio1" />
+                        <input className="select-price-time-in-way__price-up" name="first-select" type="radio" id="radio1" onClick={this.handleFirstSelect} />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio1">  - по возрастанию цены</label><br />
-                        <input className="select-price-time-in-way__price-down" type="radio" id="radio2" />
+                        <input className="select-price-time-in-way__price-down" name="first-select" type="radio" id="radio2" onClick={this.handleFirstSelect} />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio2">  - по убыванию в цене</label><br />
-                        <input className="select-price-time-in-way__time-in-way" type="radio" id="radio3" />
+                        <input className="select-price-time-in-way__time-in-way" name="first-select" type="radio" id="radio3" onClick={this.handleFirstSelect} />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio3">  - по времени в пути</label><br />
                     </div>
                     <div className="select-transfer">
                         <p className="select-transfer__title">Фильтровать</p>
-                        <input className="select-transfer__input" type="checkbox" id="transfer1" name="scales" /><label className="select-transfer__label" htmlFor="transfer1">- 1 пересадка</label>
-                        <input className="select-transfer__input" type="checkbox" id="transfer0" name="scales" /><label className="select-transfer__label" htmlFor="transfer0">- без пересадок</label>
+                        <input className="select-transfer__input" type="checkbox" id="transfer1" name="scales" /><label className="select-transfer__label" htmlFor="transfer1" 
+                        onClick={this.handleTransfer} >- 1 пересадка</label>
+                        <input className="select-transfer__input" type="checkbox" id="transfer0" name="scales" /><label className="select-transfer__label" htmlFor="transfer0"
+                        onClick={this.handleTransfer}>- без пересадок</label>
                     </div>
                     <div className="select-price">
                         <p className="select-price__title">Цена</p>
-                        <label className="select-price__label" htmlFor='price-min'>От</label><input className="select-price__input" type='number' id="price-min" value="0" />
-                        <label className="select-price__label" htmlFor='price-max'>До</label><input className="select-price__input" type='number' id="price-max" value="10000" />
+                        <label className="select-price__label" htmlFor='price-min'>От</label><input className="select-price__input" type='number' id="price-min" value="0" 
+                            onChange={this.onChangePriceMin}
+                        />
+                        <label className="select-price__label" htmlFor='price-max'>До</label><input className="select-price__input" type='number' id="price-max" value="10000" 
+                            onChange={this.onChangePriceMax}
+                        />
                     </div>
                     <div className="select-aircompany">
                         <p className="select-aircompany__title">Авиакомпании</p>
-                        <input className="select-aircompany__input" type="checkbox" id="transfer1" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer1">- LOT Polish Airlines от 21049 р.</label>
-                        <input className="select-aircompany__input" type="checkbox" id="transfer0" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer0">- Аэрофлот - рос... от 31733 р.</label>
+                        <input className="select-aircompany__input" type="checkbox" id="transfer1" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer1"
+                        onClick={this.handleAviaCompany}>- LOT Polish Airlines от 21049 р.</label>
+                        <input className="select-aircompany__input" type="checkbox" id="transfer0" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer0"
+                        onClick={this.handleAviaCompany}>- Аэрофлот - рос... от 31733 р.</label>
                     </div>
                     <input className="select__submit" type="submit" value="Найти рейс" />
                 </form>
