@@ -19,20 +19,25 @@ const month = {
 }
 
 class AirTickets extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             firstSelect: 'price-up',
-            transfer: 'none',
+            transferLess: false,
+            transferOne: false,
             price_min: '0',
             price_max: '10000',
-            aviaCompany: 'Polish'
+            polish: false,
+            aeroFlot: false,
         }
         this.handleFirstSelect = this.handleFirstSelect.bind(this);
-        this.handleTransfer = this.handleTransfer.bind(this);
+        this.handleTransferLess = this.handleTransferLess.bind(this);
+        this.handleTransferOne = this.handleTransferOne.bind(this);
         this.onChangePriceMin = this.onChangePriceMin.bind(this);
         this.onChangePriceMax = this.onChangePriceMax.bind(this);
-        this.handleAviaCompany = this.handleAviaCompany.bind(this);
+        this.handleAviaCompanyPolish = this.handleAviaCompanyPolish.bind(this);
+        this.handleAviaCompanyAeroflot = this.handleAviaCompanyAeroflot.bind(this);
+
     }
 
     handleFirstSelect(e) {
@@ -41,10 +46,28 @@ class AirTickets extends React.Component {
         })
     }
 
-    handleTransfer(e) {
-        this.setState({
-            transfer: e.target.value
-        })
+    handleTransferLess() {
+        if (document.getElementById("transfer0").checked==true) {
+            this.setState({
+                transferLess: false
+            })
+        } else {
+            this.setState({
+                transferLess: true
+            }) 
+        }
+    }
+
+    handleTransferOne() {
+        if (document.getElementById("transfer1").checked==true) {
+            this.setState({
+                transferOne: false
+            })
+        } else {
+            this.setState({
+                transferOne: true
+            }) 
+        }
     }
 
     onChangePriceMin(e) {
@@ -59,10 +82,28 @@ class AirTickets extends React.Component {
         })
     }
 
-    handleAviaCompany(e) {
-        this.setState({
-            aviaCompany: e.target.value
-        })
+    handleAviaCompanyPolish() {
+        if (document.getElementById("polish").checked==true) {
+            this.setState({
+                polish: false
+            })
+        } else {
+            this.setState({
+                polish: true
+            }) 
+        }
+    }
+
+    handleAviaCompanyAeroflot() {
+        if (document.getElementById("aeroFlot").checked==true) {
+            this.setState({
+                aeroFlot: false
+            })
+        } else {
+            this.setState({
+                aeroFlot: true
+            }) 
+        }
     }
 
     render() {
@@ -71,35 +112,35 @@ class AirTickets extends React.Component {
                 <form className="select">
                     <div className="select-price-time-in-way">
                         <p className="select-price-time-in-way__title">Сортировать</p>{" "}
-                        <input className="select-price-time-in-way__price-up" name="first-select" type="radio" id="radio1" onClick={this.handleFirstSelect} />
+                        <input className="select-price-time-in-way__price-up" name="first-select" type="radio" id="radio1" onClick={this.handleFirstSelect} value="prise-up" />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio1">  - по возрастанию цены</label><br />
-                        <input className="select-price-time-in-way__price-down" name="first-select" type="radio" id="radio2" onClick={this.handleFirstSelect} />
+                        <input className="select-price-time-in-way__price-down" name="first-select" type="radio" id="radio2" onClick={this.handleFirstSelect} value="prise-down" />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio2">  - по убыванию в цене</label><br />
-                        <input className="select-price-time-in-way__time-in-way" name="first-select" type="radio" id="radio3" onClick={this.handleFirstSelect} />
+                        <input className="select-price-time-in-way__time-in-way" name="first-select" type="radio" id="radio3" onClick={this.handleFirstSelect} value="time-in-way" />
                         <label className="select-price-time-in-way__price-label" htmlFor="radio3">  - по времени в пути</label><br />
                     </div>
                     <div className="select-transfer">
                         <p className="select-transfer__title">Фильтровать</p>
-                        <input className="select-transfer__input" type="checkbox" id="transfer1" name="scales" /><label className="select-transfer__label" htmlFor="transfer1" 
-                        onClick={this.handleTransfer} >- 1 пересадка</label>
+                        <input className="select-transfer__input" type="checkbox" id="transfer1" name="scales" /><label className="select-transfer__label" htmlFor="transfer1"
+                            onClick={this.handleTransferOne} >- 1 пересадка</label>
                         <input className="select-transfer__input" type="checkbox" id="transfer0" name="scales" /><label className="select-transfer__label" htmlFor="transfer0"
-                        onClick={this.handleTransfer}>- без пересадок</label>
+                            onClick={this.handleTransferLess}>- без пересадок</label>
                     </div>
                     <div className="select-price">
                         <p className="select-price__title">Цена</p>
-                        <label className="select-price__label" htmlFor='price-min'>От</label><input className="select-price__input" type='number' id="price-min" value="0" 
+                        <label className="select-price__label" htmlFor='price-min'>От</label><input className="select-price__input" type='number' id="price-min" value={this.state.price_min}
                             onChange={this.onChangePriceMin}
                         />
-                        <label className="select-price__label" htmlFor='price-max'>До</label><input className="select-price__input" type='number' id="price-max" value="10000" 
+                        <label className="select-price__label" htmlFor='price-max'>До</label><input className="select-price__input" type='number' id="price-max" value={this.state.price_max}
                             onChange={this.onChangePriceMax}
                         />
                     </div>
                     <div className="select-aircompany">
                         <p className="select-aircompany__title">Авиакомпании</p>
-                        <input className="select-aircompany__input" type="checkbox" id="transfer1" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer1"
-                        onClick={this.handleAviaCompany}>- LOT Polish Airlines от 21049 р.</label>
-                        <input className="select-aircompany__input" type="checkbox" id="transfer0" name="scales" checked /><label className="select-aircompany__label" htmlFor="transfer0"
-                        onClick={this.handleAviaCompany}>- Аэрофлот - рос... от 31733 р.</label>
+                        <input className="select-aircompany__input" type="checkbox" id="polish" name="scales" /><label className="select-aircompany__label" htmlFor="polish"
+                            onClick={this.handleAviaCompanyPolish}>- LOT Polish Airlines от 21049 р.</label>
+                        <input className="select-aircompany__input" type="checkbox" id="aeroFlot" name="scales"/><label className="select-aircompany__label" htmlFor="aeroFlot"
+                            onClick={this.handleAviaCompanyAeroflot}>- Аэрофлот - рос... от 31733 р.</label>
                     </div>
                     <input className="select__submit" type="submit" value="Найти рейс" />
                 </form>
@@ -121,16 +162,16 @@ class AirTickets extends React.Component {
                                 <section className="selected-ticket__timing">
                                     <p className="timing__start">{tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[0].segments[0].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[0].departureDate.split('').splice(5, 2).join('')]}</span></p>
                                     <p className="timing__duration">{
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') : 
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') :
-                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') + 60
+                                        tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ?
+                                            tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') :
+                                            tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                            tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') ?
+                                                tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') :
+                                                tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[0].departureDate.split('').splice(14, 2).join('') + 60
                                         } мин</p>
                                     <p className="timing__end"><span className="end__date">{tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[0].segments[0].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки'}</p>
                                 <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[0].segments[0].airline.caption}</span></p>
                             </section>
                             <section className="selected-ticket__selected-ticket-2">
@@ -141,16 +182,16 @@ class AirTickets extends React.Component {
                                 <section className="selected-ticket__timing">
                                     <p className="timing__start">{tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[0].segments[1].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[1].departureDate.split('').splice(5, 2).join('')]}</span></p>
                                     <p className="timing__duration">{
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') : 
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') :
-                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') + 60
+                                        tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ?
+                                            tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') :
+                                            tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                            tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') ?
+                                                tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') :
+                                                tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[0].segments[1].departureDate.split('').splice(14, 2).join('') + 60
                                         } мин</p>
                                     <p className="timing__end"><span className="end__date">{tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[0].segments[1].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[0].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[0].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки'}</p>
                                 <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[0].segments[1].airline.caption}</span></p>
                             </section>
                             <button className="selected-ticket__chouse">Выбрать</button>
@@ -171,16 +212,16 @@ class AirTickets extends React.Component {
                                 <section className="selected-ticket__timing">
                                     <p className="timing__start">{tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[1].segments[0].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[0].departureDate.split('').splice(5, 2).join('')]}</span></p>
                                     <p className="timing__duration">{
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') : 
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') :
-                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') + 60
+                                        tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ?
+                                            tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') :
+                                            tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                            tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') ?
+                                                tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') :
+                                                tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[0].departureDate.split('').splice(14, 2).join('') + 60
                                         } мин</p>
                                     <p className="timing__end"><span className="end__date">{tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[1].segments[0].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[0].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[0].stops == '1' ? '1 пересадка' : '2 пересадки'}</p>
                                 <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[1].segments[0].airline.caption}</span></p>
                             </section>
                             <section className="selected-ticket__selected-ticket-2">
@@ -191,16 +232,16 @@ class AirTickets extends React.Component {
                                 <section className="selected-ticket__timing">
                                     <p className="timing__start">{tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 5).join('')} <span className="start__date">{tickets.flight.legs.[1].segments[1].departureDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[1].departureDate.split('').splice(5, 2).join('')]}</span></p>
                                     <p className="timing__duration">{
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') : 
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ? 
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') :
-                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') + 60
+                                        tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ?
+                                            tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') :
+                                            tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(11, 2).join('') - 1} ч {
+                                            tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') >= tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') ?
+                                                tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') :
+                                                tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(14, 2).join('') - tickets.flight.legs.[1].segments[1].departureDate.split('').splice(14, 2).join('') + 60
                                         } мин</p>
                                     <p className="timing__end"><span className="end__date">{tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(8, 2).join('')} {month[tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(5, 2).join('')]} </span> {tickets.flight.legs.[1].segments[1].arrivalDate.split('').splice(11, 5).join('')}</p>
                                 </section>
-                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки' }</p>
+                                <p className="selected-ticket__transfer-count">{tickets.flight.legs.[1].segments[1].stops == '0' ? '0 пересадок' : tickets.flight.legs.[1].segments[1].stops == '1' ? '1 пересадка' : '2 пересадки'}</p>
                                 <p className="selected-ticket__shipper">Рейс выполняет: <span className="shipper__name">{tickets.flight.legs.[1].segments[1].airline.caption}</span></p>
                             </section>
                             <button className="selected-ticket__chouse">Выбрать</button>
