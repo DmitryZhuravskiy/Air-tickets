@@ -32,6 +32,7 @@ class AirTickets extends React.Component {
             price_max: '10000',
             polish: false,
             aeroFlot: false,
+            turkish: false
         }
         this.handleFirstSelect = this.handleFirstSelect.bind(this);
         this.handleTransferLess = this.handleTransferLess.bind(this);
@@ -40,7 +41,7 @@ class AirTickets extends React.Component {
         this.onChangePriceMax = this.onChangePriceMax.bind(this);
         this.handleAviaCompanyPolish = this.handleAviaCompanyPolish.bind(this);
         this.handleAviaCompanyAeroflot = this.handleAviaCompanyAeroflot.bind(this);
-
+        this.handleAviaCompanyTurkish = this.handleAviaCompanyTurkish.bind(this);
     }
 
     handleFirstSelect(e) {
@@ -97,6 +98,18 @@ class AirTickets extends React.Component {
         }
     }
 
+    handleAviaCompanyTurkish() {
+        if (document.getElementById("turkish").checked == true) {
+            this.setState({
+                turkish: false
+            })
+        } else {
+            this.setState({
+                turkish: true
+            })
+        }
+    }
+
     handleAviaCompanyAeroflot() {
         if (document.getElementById("aeroFlot").checked == true) {
             this.setState({
@@ -141,7 +154,7 @@ class AirTickets extends React.Component {
                     <div className="select-aircompany">
                         <p className="select-aircompany__title">Авиакомпании</p>
                         <input className="select-aircompany__input" type="checkbox" id="polish" name="scales" /><label className="select-aircompany__label" htmlFor="polish"
-                            onClick={this.handleAviaCompanyPolish}>- LOT Polish Airlines от 21049 р.</label>
+                            onClick={this.handleAviaCompanyTurkish}>- Turk Hava Yollari A.O. от 21049 р.</label>
                         <input className="select-aircompany__input" type="checkbox" id="aeroFlot" name="scales" /><label className="select-aircompany__label" htmlFor="aeroFlot"
                             onClick={this.handleAviaCompanyAeroflot}>- Аэрофлот - рос... от 31733 р.</label>
                     </div>
@@ -252,7 +265,40 @@ class AirTickets extends React.Component {
                     </ul>
                     <button className="see-more">Показать ещё</button>
                     <ul>
-                        {tickets2["flights"].map(element => (
+                        {tickets2["flights"].sort(function (a, b) { // сортируем по возрастанию цены, убыванию или длине перелета
+                            if (this.state.firstSelect == 'price-up') {
+                                return a.flight.price.total.amount - b.flight.price.total.amount;
+                            } else if (this.state.firstSelect == 'price-down') {
+                                return b.flight.price.total.amount - a.flight.price.total.amount;
+                            } else if (this.state.firstSelect == 'time-in-way') {
+                                return a.flight.legs[0].duration - b.flight.legs[0].duration;
+                            }
+                        }).filter(
+                            function notHaveTransfer(flightOne) { //если не поставлена галочка на "без пересадок", то не показываем без пересадок
+                                if (this.state.transferLess == false) {
+                                    return flightOne.flight.legs[0].segments[0].stops !== "0" || flightOne.flight.legs[0].segments[1].stops !== "0" || flightOne.flight.legs[1].segments[0].stops !== "0" || flightOne.flight.legs[1].segments[1].stops !== "0";
+                                }
+                            }
+                        ).filter(
+                            function haveOneTransfer(flightOne) { //если не поставлена галочка на "с одной посадкой", то не показываем с одной посадкой
+                                if (this.state.transferOne == false) {
+                                    return flightOne.flight.legs[0].segments[0].stops !== "1" || flightOne.flight.legs[0].segments[1].stops !== "1" || flightOne.flight.legs[1].segments[0].stops !== "1" || flightOne.flight.legs[1].segments[1].stops !== "1";
+                                }
+                            }
+                        ).filter(ticket => (ticket.flight.price.total.amount >= this.state.price_min && ticket.flight.price.total.amount <= this.state.price_max) //фильтруем по максимальнойй и минимальной цене
+                        ).filter(
+                            function haveAeroFlot(flightOne) { //если не поставлена галочка на аэрофлоте, то не показываем
+                                if (this.state.aeroFlot == false) {
+                                    return flightOne.flight.carrier.uid !== "SU1";
+                                }
+                            }
+                        ).filter(
+                            function haveTurkish(flightOne) { // если не поставлена галочка на турецких авиалиниях, то не показываем
+                                if (this.state.turkish == false) {
+                                    return flightOne.flight.carrier.uid !== "TK";
+                                }
+                            }
+                        ).map(element => (
                             <li className="selected-tickets__selected-ticket">
                                 <section className="selected-ticket__header">
                                     <img src="polish.jpg" alt={element.flight.carrier.caption} />
